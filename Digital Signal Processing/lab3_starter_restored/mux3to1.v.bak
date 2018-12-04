@@ -1,0 +1,16 @@
+module mux3to1(input0,input1,input2,select,out);
+	input[15:0] input0,input1,input2; 
+	input [1:0] select;
+	output reg [15:0] out;
+	
+	always @(*)
+		begin
+			case(select)
+				0: out = input0;
+				1:	out = input0; //there is one extra input so by default I define it going to input 0
+				2:	out = input1;
+				3:	out = input2;
+			endcase
+		end
+
+endmodule

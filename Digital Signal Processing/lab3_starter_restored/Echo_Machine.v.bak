@@ -1,0 +1,19 @@
+module Echo_Machine(input clock, input wire [15:0] inputSignal, output reg [15:0] outputSignal);
+	
+	
+	//Note the model used here is like the one from figure 4c
+	reg[15:0] outputTap; //signal that is directly obtained from output
+	reg[15:0] delayed; //after the outputTap signal has been delayed
+	reg[15:0] delayedAttentuate; //the delayed signal attenuated(divided by powers of 2)
+	
+	always @(posedge clock)
+	begin
+		outputTap <= outputSignal;
+		delayedAttentuate <= {{2{delayed[15]}},delayed[15:2]};
+		outputSignal = inputSignal + delayedAttentuate;
+	end
+	
+	//creating the delay(using a shift register)
+	shiftregister shift(.clock(clock),.shiftin(outputTap), .shiftout(delayed));
+
+endmodule
